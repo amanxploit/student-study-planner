@@ -7,16 +7,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script type="module" src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js"></script>
-<style>
-    ion-icon {
-  --ionicon-stroke-width: 48px;
-}
-
-</style>
-
+<link rel="stylesheet" href="./src/style/main.css">
 </head>
-<body class="bg-[#FAF8FF] h-screen">
-    <div class="bg-white w-[20%] h-screen">
+<body class="bg-[#FAF8FF] h-screen flex">
+    <div class="bg-white w-[25%] h-screen">
         <div class="Header flex">
             <img src="" alt="Logo">
             <div class="flex flex-col">
@@ -63,6 +57,28 @@
                 <p class="rounded-full text-[#0073A5] bg-[#DAE2FD] pl-2 pr-2"><ion-icon name="ellipse" class="text-[10px] text-[#0073A5]"></ion-icon> Ready</p>
             </div>
             <p class="text-[#A2A4AF] text-sm pt-1">LocalStorage (Offline Ready)</p>
+        </div>
+    </div>
+
+    <div class="bg-white h-[10%] w-screen p-2 flex justify-between">
+        <input placeholder="Search tasks, subjects... " class="bg-[#F2F3FF] p-3 rounded-md w-[40%] pl-10">
+
+        <div class="flex gap-5 items-center">
+        <div class="calendar flex bg-[#F2F3FF] text-black  rounded-full items-center pl-3 pr-3">
+            <ion-icon name="calendar-clear-outline" size="small"></ion-icon>
+             <span> Today, Oct 24</span>
+        </div>
+
+
+        <button class="p-3 bg-[#2563EB] text-white rounded-md"> <ion-icon name="add" class="text-white"></ion-icon> Add Task </button>
+
+        <div class="Profile flex gap-2">
+            <div class="flex flex-col">
+                <p>Aman Bhagat</p>
+                <p>Grade 12</p>
+            </div>
+            <img src="" alt="Profile">
+        </div>
         </div>
     </div>
     <!-- <img src="./src/img/screen1.png"> -->
