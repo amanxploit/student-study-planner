@@ -7,6 +7,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script type="module" src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js"></script>
+<style>
+    ion-icon {
+  --ionicon-stroke-width: 48px;
+}
+
+</style>
 
 </head>
 <body class="bg-[#FAF8FF] h-screen">
@@ -19,11 +25,44 @@
             </div>
         </div>
 
-        <div class="Means m-2">
-            <div class="flex gap-2 bg-[#2563EB] rounded-md p-2 items-center text-white">
-                <ion-icon name="home-outline"></ion-icon>
+        <div class="Manu m-2 flex flex-col gap-2">
+            <div class="flex gap-2 bg-[#2563EB] rounded-md p-2 items-center text-white font-medium">
+                <ion-icon name="home-outline" size="small"></ion-icon>
                 <h1>DashBoard</h1>
             </div>
+
+            <div class="flex gap-2  rounded-md p-2 items-center text-black hover:bg-[#2563EB] hover:text-white cursor-pointer">
+                <ion-icon name="checkbox-outline" size="small"></ion-icon>
+                <h1>Tasks</h1>
+            </div>
+
+            <div class="flex gap-2  rounded-md p-2 items-center text-black hover:bg-[#2563EB] hover:text-white cursor-pointer">
+                <ion-icon name="book-outline" size="small"></ion-icon>
+                <h1>Subjects</h1>
+            </div>
+
+            <div class="flex gap-2  rounded-md p-2 items-center text-black hover:bg-[#2563EB] hover:text-white cursor-pointer">
+                <ion-icon name="calendar-clear-outline" size="small"></ion-icon>
+                <h1>Calendar</h1>
+            </div>
+            <div class="flex gap-2  rounded-md p-2 items-center text-black hover:bg-[#2563EB] hover:text-white cursor-pointer">
+                <ion-icon name="analytics-outline" size="small"></ion-icon>
+                <h1>Progress & Analytics</h1>
+            </div>
+
+            <div class="flex gap-2  rounded-md p-2 items-center text-black hover:bg-[#2563EB] hover:text-white cursor-pointer">
+                <ion-icon name="settings-outline" size="small"></ion-icon>
+                <h1>Settings</h1>
+            </div>
+        </div>
+
+
+        <div class="fixed bottom-0 w-[18%] bg-[#F2F3FF] m-5 p-5 rounded-md">
+            <div class="flex justify-between">
+                <b>Storage</b>
+                <p class="rounded-full text-[#0073A5] bg-[#DAE2FD] pl-2 pr-2"><ion-icon name="ellipse" class="text-[10px] text-[#0073A5]"></ion-icon> Ready</p>
+            </div>
+            <p class="text-[#A2A4AF] text-sm pt-1">LocalStorage (Offline Ready)</p>
         </div>
     </div>
     <!-- <img src="./src/img/screen1.png"> -->
