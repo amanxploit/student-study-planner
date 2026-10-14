@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StudyPlanner - Sign in to your account">
+    <title>Sign In - StudyPlanner</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script type="module" src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body class="scrollbar-thin">
+    <main class="login-container" role="main">
+        <div class="login-card">
+            <header class="login-header">
+                <div class="login-logo" aria-hidden="true">
+                    <ion-icon name="school-outline"></ion-icon>
+                </div>
+                <h1>Welcome back</h1>
+                <p>Enter your name to continue to StudyPlanner</p>
+            </header>
+
+            <form id="loginForm" novalidate>
+                <div class="form-group">
+                    <label for="name" class="form-label">Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-input"
+                        placeholder="Enter your name"
+                        autocomplete="name"
+                        required
+                        aria-describedby="nameError"
+                        spellcheck="false"
+                    >
+                    <p id="nameError" class="error-message" aria-live="polite">Please enter your name</p>
+                </div>
+
+                <button type="submit" class="btn-login" id="loginBtn">
+                    Sign In
+                </button>
+            </form>
+
+            <footer class="login-footer">
+                <p>Don't have an account? <a href="#" id="createAccount">Create one</a></p>
+            </footer>
+        </div>
+    </main>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const nameInput = document.getElementById('name');
+        const nameError = document.getElementById('nameError');
+        const loginBtn = document.getElementById('loginBtn');
+        const createAccountLink = document.getElementById('createAccount');
+
+        function showError(input, errorEl, message) {
+            input.classList.add('error');
+            errorEl.textContent = message;
+            errorEl.classList.add('visible');
+        }
+
+        function clearError(input, errorEl) {
+            input.classList.remove('error');
+            errorEl.classList.remove('visible');
+        }
+
+        function validateName(value) {
+            const trimmed = value.trim();
+            if (!trimmed) return 'Please enter your name';
+            if (trimmed.length < 2) return 'Name must be at least 2 characters';
+            if (trimmed.length > 50) return 'Name must be less than 50 characters';
+            return null;
+        }
+
+        nameInput.addEventListener('input', () => {
+            const error = validateName(nameInput.value);
+            if (error) {
+                showError(nameInput, nameError, error);
+            } else {
+                clearError(nameInput, nameError);
+            }
+        });
+
+        nameInput.addEventListener('blur', () => {
+            const error = validateName(nameInput.value);
+            if (error) {
+                showError(nameInput, nameError, error);
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const error = validateName(nameInput.value);
+            if (error) {
+                showError(nameInput, nameError, error);
+                nameInput.focus();
+                return;
+            }
+
+            clearError(nameInput, nameError);
+
+            const name = nameInput.value.trim();
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Signing in...';
+
+            try {
+                await new Promise(resolve => setTimeout(resolve, 800));
+
+                localStorage.setItem('userName', name);
+                localStorage.setItem('isLoggedIn', 'true');
+
+                window.location.href = 'index.html';
+            } catch (err) {
+                showError(nameInput, nameError, 'Something went wrong. Please try again.');
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Sign In';
+            }
+        });
+
+        createAccountLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            nameInput.focus();
+        });
+
+        nameInput.focus();
+
+        nameInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                form.dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>
