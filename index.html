@@ -3,84 +3,454 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>student-study-planner</title>
+    <meta name="description" content="Student Study Planner - Organize your academic life efficiently">
+    <title>StudyPlanner - Student Workspace</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script type="module" src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js"></script>
-<link rel="stylesheet" href="./src/style/main.css">
+    <script nomodule src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./src/style/main.css">
+    <style>
+        :root {
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            --color-primary: #2563EB;
+            --color-primary-hover: #1D4ED8;
+            --color-primary-light: #DBEAFE;
+            --color-bg: #FAF8FF;
+            --color-surface: #FFFFFF;
+            --color-border: #E5E7EB;
+            --color-text: #111827;
+            --color-text-muted: #6B7280;
+            --color-success: #059669;
+            --color-warning: #D97706;
+            --color-danger: #DC2626;
+        }
+
+        * {
+            font-family: var(--font-sans);
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+        }
+
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background: var(--color-surface);
+            border-right: 1px solid var(--color-border);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 40;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-bar {
+            height: 64px;
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            z-index: 30;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .nav-item:hover {
+            background: var(--color-primary-light);
+            color: var(--color-primary);
+        }
+
+        .nav-item.active {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .nav-item ion-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .search-input {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 10px;
+            padding: 10px 16px 10px 44px;
+            font-size: 14px;
+            color: var(--color-text);
+            width: 100%;
+            max-width: 420px;
+            transition: all 0.2s ease;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='M21 21l-4.35-4.35'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 14px center;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-light);
+            background-color: var(--color-surface);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .btn-primary:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px var(--color-primary-light);
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--color-primary-light);
+            color: var(--color-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .storage-card {
+            background: var(--color-primary-light);
+            border: 1px solid #BFDBFE;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-badge.ready {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .top-bar {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+            .content-area {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .search-input {
+                max-width: 100%;
+            }
+            .top-bar .flex {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+        }
+
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: var(--color-border);
+            border-radius: 3px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+            background: #D1D5DB;
+        }
+    </style>
 </head>
-<body class="bg-[#FAF8FF] h-screen flex">
-    <div class="bg-white w-[25%] h-screen">
-        <div class="Header flex">
-            <img src="" alt="Logo">
-            <div class="flex flex-col">
-                <h1>StudyPlanner</h1>
-                <p>Student Workspace</p>
+<body class="scrollbar-thin">
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+        <div class="p-6 border-b border-[var(--color-border)]">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-[var(--color-primary)] flex items-center justify-center">
+                    <ion-icon name="school-outline" class="text-white text-2xl"></ion-icon>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-[var(--color-text)]">StudyPlanner</h1>
+                    <p class="text-xs text-[var(--color-text-muted)]">Student Workspace</p>
+                </div>
             </div>
         </div>
 
-        <div class="Manu m-2 flex flex-col gap-2">
-            <div class="flex gap-2 bg-[#2563EB] rounded-md p-2 items-center text-white font-medium">
-                <ion-icon name="home-outline" size="small"></ion-icon>
-                <h1>DashBoard</h1>
-            </div>
+        <nav class="flex-1 p-4 space-y-1 overflow-y-auto scrollbar-thin" aria-label="Navigation menu">
+            <button class="nav-item active" aria-current="page">
+                <ion-icon name="home-outline"></ion-icon>
+                <span>Dashboard</span>
+            </button>
+            <button class="nav-item">
+                <ion-icon name="checkbox-outline"></ion-icon>
+                <span>Tasks</span>
+            </button>
+            <button class="nav-item">
+                <ion-icon name="book-outline"></ion-icon>
+                <span>Subjects</span>
+            </button>
+            <button class="nav-item">
+                <ion-icon name="calendar-outline"></ion-icon>
+                <span>Calendar</span>
+            </button>
+            <button class="nav-item">
+                <ion-icon name="analytics-outline"></ion-icon>
+                <span>Progress & Analytics</span>
+            </button>
+            <button class="nav-item">
+                <ion-icon name="settings-outline"></ion-icon>
+                <span>Settings</span>
+            </button>
+        </nav>
 
-            <div class="flex gap-2  rounded-md p-2 items-center text-black hover:bg-[#2563EB] hover:text-white cursor-pointer">
-                <ion-icon name="checkbox-outline" size="small"></ion-icon>
-                <h1>Tasks</h1>
-            </div>
-
-            <div class="flex gap-2  rounded-md p-2 items-center text-black hover:bg-[#2563EB] hover:text-white cursor-pointer">
-                <ion-icon name="book-outline" size="small"></ion-icon>
-                <h1>Subjects</h1>
-            </div>
-
-            <div class="flex gap-2  rounded-md p-2 items-center text-black hover:bg-[#2563EB] hover:text-white cursor-pointer">
-                <ion-icon name="calendar-clear-outline" size="small"></ion-icon>
-                <h1>Calendar</h1>
-            </div>
-            <div class="flex gap-2  rounded-md p-2 items-center text-black hover:bg-[#2563EB] hover:text-white cursor-pointer">
-                <ion-icon name="analytics-outline" size="small"></ion-icon>
-                <h1>Progress & Analytics</h1>
-            </div>
-
-            <div class="flex gap-2  rounded-md p-2 items-center text-black hover:bg-[#2563EB] hover:text-white cursor-pointer">
-                <ion-icon name="settings-outline" size="small"></ion-icon>
-                <h1>Settings</h1>
+        <div class="p-4 border-t border-[var(--color-border)]">
+            <div class="storage-card">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-semibold text-[var(--color-text)]">Storage</span>
+                    <span class="status-badge ready">
+                        <ion-icon name="checkmark-circle-outline" class="text-[12px]"></ion-icon>
+                        Ready
+                    </span>
+                </div>
+                <p class="text-xs text-[var(--color-text-muted)]">LocalStorage (Offline Ready)</p>
             </div>
         </div>
+    </aside>
 
+    <main class="main-content" role="main">
+        <header class="top-bar">
+            <div class="h-full flex items-center justify-between px-6">
+                <div class="flex-1 max-w-md">
+                    <input
+                        type="search"
+                        class="search-input"
+                        placeholder="Search tasks, subjects..."
+                        aria-label="Search tasks and subjects"
+                        autocomplete="off"
+                    >
+                </div>
 
-        <div class="fixed bottom-0 w-[18%] bg-[#F2F3FF] m-5 p-5 rounded-md">
-            <div class="flex justify-between">
-                <b>Storage</b>
-                <p class="rounded-full text-[#0073A5] bg-[#DAE2FD] pl-2 pr-2"><ion-icon name="ellipse" class="text-[10px] text-[#0073A5]"></ion-icon> Ready</p>
+                <div class="flex items-center gap-4 ml-6">
+                    <button class="calendar-btn flex items-center gap-2 px-4 py-2 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-full text-sm font-medium text-[var(--color-text)] hover:bg-[var(--color-border)] transition-colors" aria-label="Open calendar">
+                        <ion-icon name="calendar-outline" class="text-[20px]"></ion-icon>
+                        <span class="hidden sm:inline">Today, Oct 24</span>
+                    </button>
+
+                    <button class="btn-primary" aria-label="Add new task">
+                        <ion-icon name="add" class="text-[20px]"></ion-icon>
+                        <span>Add Task</span>
+                    </button>
+
+                    <div class="profile-dropdown relative" role="button" tabindex="0" aria-label="User menu" aria-expanded="false" aria-haspopup="true">
+                        <div class="flex items-center gap-3 cursor-pointer" id="profileTrigger">
+                            <div class="flex flex-col">
+                                <p class="text-sm font-medium text-[var(--color-text)]">Aman Bhagat</p>
+                                <p class="text-xs text-[var(--color-text-muted)]">Grade 12</p>
+                            </div>
+                            <div class="avatar" aria-hidden="true">AB</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p class="text-[#A2A4AF] text-sm pt-1">LocalStorage (Offline Ready)</p>
-        </div>
-    </div>
+        </header>
 
-    <div class="bg-white h-[10%] w-screen p-2 flex justify-between">
-        <input placeholder="Search tasks, subjects... " class="bg-[#F2F3FF] p-3 rounded-md w-[40%] pl-10">
-
-        <div class="flex gap-5 items-center">
-        <div class="calendar flex bg-[#F2F3FF] text-black  rounded-full items-center pl-3 pr-3">
-            <ion-icon name="calendar-clear-outline" size="small"></ion-icon>
-             <span> Today, Oct 24</span>
-        </div>
-
-
-        <button class="p-3 bg-[#2563EB] text-white rounded-md"> <ion-icon name="add" class="text-white"></ion-icon> Add Task </button>
-
-        <div class="Profile flex gap-2">
-            <div class="flex flex-col">
-                <p>Aman Bhagat</p>
-                <p>Grade 12</p>
+        <div class="content-area" id="appContent">
+            <!-- Main content will be rendered here -->
+            <div class="text-center py-12 text-[var(--color-text-muted)]">
+                <ion-icon name="school-outline" class="text-6xl mx-auto mb-4 text-[var(--color-primary)]"></ion-icon>
+                <h2 class="text-2xl font-semibold text-[var(--color-text)] mb-2">Welcome to StudyPlanner</h2>
+                <p class="max-w-md mx-auto">Organize your studies, track progress, and achieve your academic goals.</p>
             </div>
-            <img src="" alt="Profile">
         </div>
-        </div>
-    </div>
-    <!-- <img src="./src/img/screen1.png"> -->
+    </main>
+
+    <script>
+        // Mobile sidebar toggle
+        const sidebar = document.querySelector('.sidebar');
+        const menuBtn = document.createElement('button');
+        menuBtn.className = 'fixed bottom-6 right-6 z-50 p-3 bg-[var(--color-primary)] text-white rounded-full shadow-lg md:hidden';
+        menuBtn.innerHTML = '<ion-icon name="menu-outline" class="text-2xl"></ion-icon>';
+        menuBtn.setAttribute('aria-label', 'Open navigation menu');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        document.body.appendChild(menuBtn);
+
+        menuBtn.addEventListener('click', () => {
+            const isOpen = sidebar.classList.toggle('open');
+            menuBtn.setAttribute('aria-expanded', isOpen);
+            menuBtn.innerHTML = isOpen
+                ? '<ion-icon name="close-outline" class="text-2xl"></ion-icon>'
+                : '<ion-icon name="menu-outline" class="text-2xl"></ion-icon>';
+        });
+
+        // Close sidebar on link click (mobile)
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth < 1024) {
+                    sidebar.classList.remove('open');
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                    menuBtn.innerHTML = '<ion-icon name="menu-outline" class="text-2xl"></ion-icon>';
+                }
+            });
+        });
+
+        // Profile dropdown
+        const profileTrigger = document.getElementById('profileTrigger');
+        let dropdown = null;
+
+        profileTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleDropdown();
+        });
+
+        profileTrigger.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleDropdown();
+            }
+        });
+
+        function toggleDropdown() {
+            const isExpanded = profileTrigger.getAttribute('aria-expanded') === 'true';
+            profileTrigger.setAttribute('aria-expanded', !isExpanded);
+
+            if (!isExpanded) {
+                dropdown = document.createElement('div');
+                dropdown.className = 'absolute right-0 top-full mt-2 w-48 bg-white border border-[var(--color-border)] rounded-xl shadow-lg py-2 z-50';
+                dropdown.innerHTML = `
+                    <a href="#" class="block px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)]">Profile</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)]">Settings</a>
+                    <hr class="my-2 border-[var(--color-border)]">
+                    <button class="w-full text-left px-4 py-2 text-sm text-[var(--color-danger)] hover:bg-[var(--color-bg)]" id="logoutBtn">Sign out</button>
+                `;
+                document.body.appendChild(dropdown);
+
+                const rect = profileTrigger.getBoundingClientRect();
+                dropdown.style.top = `${rect.bottom + window.scrollY + 8}px`;
+                dropdown.style.left = `${rect.right - dropdown.offsetWidth}px`;
+
+                dropdown.querySelector('#logoutBtn').addEventListener('click', () => {
+                    closeDropdown();
+                });
+
+                document.addEventListener('click', closeOnOutsideClick);
+                document.addEventListener('keydown', closeOnEscape);
+            } else {
+                closeDropdown();
+            }
+        }
+
+        function closeDropdown() {
+            if (dropdown) {
+                dropdown.remove();
+                dropdown = null;
+                profileTrigger.setAttribute('aria-expanded', 'false');
+                document.removeEventListener('click', closeOnOutsideClick);
+                document.removeEventListener('keydown', closeOnEscape);
+            }
+        }
+
+        function closeOnOutsideClick(e) {
+            if (!profileTrigger.contains(e.target) && dropdown && !dropdown.contains(e.target)) {
+                closeDropdown();
+            }
+        }
+
+        function closeOnEscape(e) {
+            if (e.key === 'Escape') {
+                closeDropdown();
+            }
+        }
+
+        // Search input enhancement
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                searchInput.blur();
+                searchInput.value = '';
+            }
+        });
+
+        // Responsive handler
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.remove('open');
+                menuBtn.setAttribute('aria-expanded', 'false');
+                menuBtn.innerHTML = '<ion-icon name="menu-outline" class="text-2xl"></ion-icon>';
+            }
+        });
+    </script>
 </body>
 </html>
