@@ -216,27 +216,12 @@ ion-icon {
                 align-items: stretch;
             }
             .top-bar .flex.items-center.gap-2 {
-                flex-wrap: wrap;
-                justify-content: space-between;
                 width: 100%;
             }
-            .calendar-btn {
-                flex: 1;
-                justify-content: center;
-                padding: 10px 12px;
-            }
-            .btn-primary {
-                flex: 1;
-                justify-content: center;
-                padding: 10px 12px;
-            }
-            .profile-dropdown {
-                flex: 0 0 auto;
-            }
             .profile-dropdown .avatar {
-                width: 40px;
-                height: 40px;
-                font-size: 14px;
+                width: 44px;
+                height: 44px;
+                font-size: 16px;
             }
         }
 
