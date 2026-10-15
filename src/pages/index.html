@@ -71,35 +71,35 @@
 
     <main class="main-content" role="main">
         <header class="top-bar">
-            <div class="h-full flex items-center justify-between px-6">
-                <div class="flex-1 max-w-md">
+            <div class="h-full flex flex-col flex-md-row items-center justify-between gap-3 md:gap-4 px-4 md:px-6">
+                <div class="w-full md:flex-1 md:max-w-md">
                     <input
                         type="search"
-                        class="search-input"
+                        class="search-input w-full"
                         placeholder="Search tasks, subjects..."
                         aria-label="Search tasks and subjects"
                         autocomplete="off"
                     >
                 </div>
 
-                <div class="flex items-center gap-4 ml-6">
-                    <button class="calendar-btn flex items-center gap-2 px-4 py-2 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-full text-sm font-medium text-[var(--color-text)] hover:bg-[var(--color-border)] transition-colors" aria-label="Open calendar">
+                <div class="flex items-center gap-2 w-full md:w-auto justify-end md:justify-end">
+                    <button class="calendar-btn flex items-center gap-2 px-3 py-2 md:px-4 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-full text-sm font-medium text-[var(--color-text)] hover:bg-[var(--color-border)] transition-colors" aria-label="Open calendar">
                         <ion-icon name="calendar-outline" class="text-[20px]"></ion-icon>
-                        <span class="hidden sm:inline">Today, Oct 24</span>
+                        <span class="hidden md:inline">Today, Oct 24</span>
                     </button>
 
-                    <button class="btn-primary" aria-label="Add new task">
+                    <button class="btn-primary px-3 md:px-4 flex-1 md:flex-none justify-center" aria-label="Add new task">
                         <ion-icon name="add" class="text-[20px]"></ion-icon>
-                        <span>Add Task</span>
+                        <span class="hidden md:inline">Add Task</span>
                     </button>
 
                     <div class="profile-dropdown relative" role="button" tabindex="0" aria-label="User menu" aria-expanded="false" aria-haspopup="true">
-                        <div class="flex items-center gap-3 cursor-pointer" id="profileTrigger">
-                            <div class="flex flex-col">
+                        <div class="flex items-center gap-2 md:gap-3 cursor-pointer" id="profileTrigger">
+                            <div class="hidden md:flex flex-col text-right">
                                 <p class="text-sm font-medium text-[var(--color-text)]">Aman Bhagat</p>
                                 <p class="text-xs text-[var(--color-text-muted)]">Grade 12</p>
                             </div>
-                            <div class="avatar" aria-hidden="true">AB</div>
+                            <div class="avatar w-8 h-8 md:w-9 md:h-9 text-sm md:text-base" aria-hidden="true">AB</div>
                         </div>
                     </div>
                 </div>
