@@ -6,35 +6,52 @@ A modern, responsive web application designed to help students organize their ac
 
 ## Features
 
+### ✅ Implemented
+
 **Authentication**
-- Simple name-based login with validation
-- Session persistence via LocalStorage
-- Secure logout functionality
+- Simple name-based login with real-time validation (min 2 chars, max 50)
+- Session persistence via LocalStorage (`isLoggedIn`, `userName`)
+- Secure logout with dropdown menu
 
 **Dashboard & Navigation**
-- Collapsible sidebar with 6 sections: Dashboard, Tasks, Subjects, Calendar, Progress & Analytics, Settings
-- Mobile-first responsive design with hamburger menu
-- Global search with keyboard shortcuts (Esc to clear)
+- Fixed left sidebar (280px) with 6 sections: Dashboard, Tasks, Subjects, Calendar, Progress & Analytics, Settings
+- Active state indication
+- Mobile-first responsive: collapses to off-canvas drawer (<1024px) with hamburger FAB
+- Top bar: global search (Esc to clear), calendar button, add task button, user profile dropdown
+- Fully responsive top bar: stacked on mobile, horizontal on desktop (≥768px)
 
-**Task Management** (UI Ready)
-- Add, complete, and organize tasks by subject
-- Priority levels and due dates
-- Filter and sort capabilities
-
-**Subjects & Calendar** (UI Ready)
-- Subject-wise organization with color coding
-- Calendar view for scheduling study sessions
-- Today/Upcoming/Overdue indicators
-
-**Progress & Analytics** (UI Ready)
-- Study streak tracking
-- Completion rate visualization
-- Subject-wise breakdown charts
+**UI Components (Ready for Logic)**
+- Search input with icon, focus states, keyboard accessible
+- Primary buttons with loading states
+- Form inputs with validation styling (error/success)
+- Avatar component (initials fallback)
+- Status badges (ready/warning/danger)
+- Cards, modals, dropdowns with outside-click/Escape dismiss
+- Custom scrollbars
 
 **Data & Storage**
 - Full LocalStorage persistence (offline-first)
 - No backend required — runs entirely in the browser
 - Data survives browser restarts
+
+---
+
+### 🚧 Planned / In Progress
+
+**Task Management**
+- Add, complete, organize tasks by subject
+- Priority levels and due dates
+- Filter, sort, drag-and-drop reordering
+
+**Subjects & Calendar**
+- Subject-wise organization with color coding
+- Calendar view (month/week/day) for scheduling
+- Today/Upcoming/Overdue indicators
+
+**Progress & Analytics**
+- Study streak tracking
+- Completion rate visualization
+- Subject-wise breakdown charts
 
 ---
 
@@ -116,6 +133,24 @@ Then navigate to `http://localhost:8000` (or the served URL).
 **Shadows**
 - Subtle elevation: `0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.03)`
 
+**Breakpoints** (Tailwind v4 defaults)
+- `sm`: 640px
+- `md`: 768px
+- `lg`: 1024px
+- `xl`: 1280px
+
+---
+
+## Responsive Behavior
+
+| Component | <640px | 640–767px | 768–1023px | ≥1024px |
+|-----------|--------|-----------|------------|---------|
+| Sidebar | Off-canvas drawer + FAB | Off-canvas drawer + FAB | Off-canvas drawer + FAB | Fixed 280px |
+| Top bar | Stacked: search → 3 icon buttons | Stacked: search → 3 icon buttons | Horizontal: search left, actions right | Horizontal: search left, actions right |
+| Calendar btn | Icon only | Icon only | Icon + "Today, Oct 24" | Icon + "Today, Oct 24" |
+| Add Task btn | Icon only | Icon only | "Add Task" + icon | "Add Task" + icon |
+| Profile | Avatar only (44px) | Avatar only (44px) | Avatar + name + grade | Avatar + name + grade |
+
 ---
 
 ## Accessibility
@@ -126,6 +161,7 @@ Then navigate to `http://localhost:8000` (or the served URL).
 - Focus-visible outlines with custom primary color
 - Sufficient color contrast (WCAG AA)
 - Screen-reader friendly form validation
+- `novalidate` + custom validation with `aria-describedby` + `aria-live`
 
 ---
 
